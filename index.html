@@ -6,127 +6,255 @@
 <title>Viral Makine</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
-  * { margin:0; padding:0; box-sizing:border-box; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background:#090909; color:#f0f0f0;
-    font-family:'IBM Plex Sans',sans-serif;
-    min-height:100vh; padding:24px 20px;
+    background: #090909;
+    color: #f0f0f0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    padding: 24px 20px;
   }
 
-  .header { text-align:center; margin-bottom:24px; }
-  .header h1 {
-    font-family:'Bebas Neue',sans-serif; font-size:2.6rem; letter-spacing:8px;
-    background:linear-gradient(135deg,#e63946,#f4a261);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  .header {
+    text-align: center;
+    margin-bottom: 28px;
   }
-  .header p { color:#2a2a2a; font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; margin-top:4px; }
+
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.6rem;
+    letter-spacing: 8px;
+    background: linear-gradient(135deg, #e63946, #f4a261);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header p {
+    color: #333;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
 
   .input-bar {
-    max-width:900px; margin:0 auto 24px;
-    display:flex; gap:10px; align-items:stretch;
+    max-width: 900px;
+    margin: 0 auto 28px;
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
   }
+
   .input-bar textarea {
-    flex:1; background:#111; border:1px solid #1e1e1e; color:#eee;
-    padding:14px 16px; border-radius:8px;
-    font-family:'IBM Plex Sans',sans-serif; font-size:0.92rem;
-    resize:none; height:68px; outline:none; transition:border-color 0.2s; line-height:1.5;
+    flex: 1;
+    background: #111;
+    border: 1px solid #222;
+    color: #eee;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.92rem;
+    resize: none;
+    height: 68px;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
   }
-  .input-bar textarea:focus { border-color:#e63946; }
-  .input-bar textarea::placeholder { color:#222; }
+
+  .input-bar textarea:focus { border-color: #e63946; }
+  .input-bar textarea::placeholder { color: #2a2a2a; }
 
   .btn-uret {
-    background:linear-gradient(135deg,#e63946,#f4a261);
-    color:#fff; border:none; padding:0 22px; border-radius:8px;
-    font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:2px;
-    cursor:pointer; transition:opacity 0.2s,transform 0.1s; white-space:nowrap; flex-shrink:0;
+    background: linear-gradient(135deg, #e63946, #f4a261);
+    color: #fff;
+    border: none;
+    padding: 0 22px;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
-  .btn-uret:hover { opacity:0.85; }
-  .btn-uret:active { transform:scale(0.97); }
-  .btn-uret:disabled { opacity:0.35; cursor:not-allowed; }
+
+  .btn-uret:hover { opacity: 0.85; }
+  .btn-uret:active { transform: scale(0.97); }
+  .btn-uret:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .btn-temizle {
-    background:#141414; color:#3a3a3a; border:1px solid #1e1e1e;
-    padding:0 16px; border-radius:8px;
-    font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:2px;
-    cursor:pointer; transition:all 0.2s; white-space:nowrap; flex-shrink:0;
+    background: #141414;
+    color: #444;
+    border: 1px solid #222;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
-  .btn-temizle:hover { background:#1e1e1e; color:#888; border-color:#2a2a2a; }
+
+  .btn-temizle:hover { background: #1e1e1e; color: #888; border-color: #333; }
+  .btn-temizle:active { transform: scale(0.97); }
 
   .panels {
-    display:grid; grid-template-columns:1fr 1px 1fr;
-    max-width:1300px; margin:0 auto; gap:0;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    max-width: 1300px;
+    margin: 0 auto;
+    gap: 0;
   }
-  .panel { padding:0 22px; }
-  .panel:first-child { padding-left:0; }
-  .panel:last-child { padding-right:0; }
-  .divider { background:#161616; }
+
+  .panel { padding: 0 22px; }
+  .panel:first-child { padding-left: 0; }
+  .panel:last-child { padding-right: 0; }
+
+  .divider { background: #1c1c1c; }
 
   .panel-head {
-    display:flex; align-items:center; gap:10px;
-    margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #141414;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #161616;
   }
+
   .panel-badge {
-    width:28px; height:28px; border-radius:6px;
-    display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
   }
-  .panel-q .panel-badge { background:rgba(230,57,70,0.12); border:1px solid rgba(230,57,70,0.25); }
-  .panel-c .panel-badge { background:rgba(244,162,97,0.12); border:1px solid rgba(244,162,97,0.25); }
 
-  .panel-name { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; }
-  .panel-q .panel-name { color:#e63946; }
-  .panel-c .panel-name { color:#f4a261; }
-  .panel-hint { font-size:0.68rem; color:#2a2a2a; letter-spacing:1px; margin-left:auto; }
+  .panel-q .panel-badge { background: rgba(230,57,70,0.15); border: 1px solid rgba(230,57,70,0.3); }
+  .panel-c .panel-badge { background: rgba(244,162,97,0.15); border: 1px solid rgba(244,162,97,0.3); }
 
-  .items { display:flex; flex-direction:column; gap:8px; min-height:160px; }
+  .panel-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+  }
+
+  .panel-q .panel-name { color: #e63946; }
+  .panel-c .panel-name { color: #f4a261; }
+
+  .panel-hint {
+    font-size: 0.7rem;
+    color: #333;
+    letter-spacing: 1px;
+    margin-left: auto;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 160px;
+  }
 
   .card {
-    background:#0f0f0f; border:1px solid #161616; border-radius:6px;
-    padding:13px 15px; display:flex; align-items:flex-start; gap:10px;
-    transition:background 0.15s; animation:fadeIn 0.3s ease;
+    background: #0f0f0f;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: background 0.15s;
+    animation: fadeIn 0.3s ease;
   }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
-  .panel-q .card { border-left:2px solid #e63946; }
-  .panel-c .card { border-left:2px solid #f4a261; }
-  .card:hover { background:#131313; }
 
-  .card-text { flex:1; font-size:0.87rem; line-height:1.65; color:#bbb; }
-  .grok { color:#e63946; font-weight:600; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel-q .card { border-left: 2px solid #e63946; }
+  .panel-c .card { border-left: 2px solid #f4a261; }
+  .card:hover { background: #131313; }
+
+  .card-text {
+    flex: 1;
+    font-size: 0.87rem;
+    line-height: 1.65;
+    color: #bbb;
+  }
+
+  .grok { color: #e63946; font-weight: 600; }
 
   .btn-kopyala {
-    background:#141414; border:1px solid #1c1c1c; color:#3a3a3a;
-    padding:5px 10px; border-radius:4px;
-    font-family:'IBM Plex Sans',sans-serif; font-size:0.65rem; letter-spacing:1px;
-    cursor:pointer; white-space:nowrap; transition:all 0.2s;
-    flex-shrink:0; margin-top:2px; text-transform:uppercase;
+    background: #161616;
+    border: 1px solid #1e1e1e;
+    color: #444;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    margin-top: 2px;
+    text-transform: uppercase;
   }
-  .panel-q .btn-kopyala:hover { background:#e63946; border-color:#e63946; color:#fff; }
-  .panel-c .btn-kopyala:hover { background:#f4a261; border-color:#f4a261; color:#000; }
-  .btn-kopyala.ok { background:#0a1f0a; border-color:#1a3d1a; color:#4caf50; }
+
+  .panel-q .btn-kopyala:hover { background: #e63946; border-color: #e63946; color: #fff; }
+  .panel-c .btn-kopyala:hover { background: #f4a261; border-color: #f4a261; color: #000; }
+  .btn-kopyala.ok { background: #0a1f0a; border-color: #1a3d1a; color: #4caf50; }
 
   .empty {
-    text-align:center; color:#1a1a1a; font-size:0.75rem;
-    padding:48px 0; letter-spacing:2px;
-    border:1px dashed #131313; border-radius:6px;
-    font-family:'Bebas Neue',sans-serif;
+    text-align: center;
+    color: #1e1e1e;
+    font-size: 0.78rem;
+    padding: 48px 0;
+    letter-spacing: 2px;
+    border: 1px dashed #141414;
+    border-radius: 6px;
   }
-  .yukluyor {
-    text-align:center; padding:48px 0;
-    display:flex; flex-direction:column; align-items:center; gap:12px;
-  }
-  .spinner {
-    width:22px; height:22px; border:2px solid #1a1a1a;
-    border-radius:50%; animation:spin 0.8s linear infinite;
-  }
-  .panel-q .spinner { border-top-color:#e63946; }
-  .panel-c .spinner { border-top-color:#f4a261; }
-  .yukluyor span { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:3px; color:#222; }
-  @keyframes spin { to{transform:rotate(360deg)} }
 
-  @media (max-width:800px) {
-    .panels { grid-template-columns:1fr; }
-    .divider { display:none; }
-    .panel { padding:0 0 28px; }
+  .yukluyor {
+    text-align: center;
+    padding: 48px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #1e1e1e;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .panel-q .spinner { border-top-color: #e63946; }
+  .panel-c .spinner { border-top-color: #f4a261; }
+
+  .yukluyor span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: #2a2a2a;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 800px) {
+    .panels { grid-template-columns: 1fr; }
+    .divider { display: none; }
+    .panel { padding: 0 0 28px; }
   }
 </style>
 </head>
@@ -144,6 +272,7 @@
 </div>
 
 <div class="panels">
+
   <div class="panel panel-q">
     <div class="panel-head">
       <div class="panel-badge">❓</div>
@@ -167,9 +296,13 @@
       <div class="empty">BAŞLIK YAZ VE ÜRET'E BAS</div>
     </div>
   </div>
+
 </div>
 
 <script>
+const GEMINI_API_KEY = 'AIzaSyA_RXlM4yHCScRkdy_qA2rpo_4b14Ik1J4';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
 const SORU_ACILARI = [
   "ekonomik güç dengesi ve para izi açısından bak",
   "tarihsel benzerlikler ve tekrar eden kalıplar açısından değerlendir",
@@ -180,78 +313,76 @@ const SORU_ACILARI = [
   "güç, korku ve sessizlik üçgeni açısından değerlendir"
 ];
 
+const SORU_PROMPT = (konu) => {
+  const aci = SORU_ACILARI[Math.floor(Math.random() * SORU_ACILARI.length)];
+  return `Sen dünyanın en zeki Twitter kullanıcısısın. Gazetecilik, tarih, psikoloji ve sokak zekasını harmanlıyorsun. Her soru bir zihin bombası olmalı. İnsanlar okuyunca "dur... bunun cevabı gerçekten ne?" diye @grok'a tıklamak zorunda kalmalı.
+
+Haber: ${konu}
+
+Bu habere "${aci}" açısından yaklaş ve 5 soru üret.
+
+Her soru şunlardan BİRİNİ yapmalı:
+1. Haberin arkasındaki GİZLİ gerçeği ima et (komplo değil, zekice tespit)
+2. İnsanların hiç düşünmediği bir açıyı zorla
+3. Hem merak hem tartışma yaratan bir gerilim kur
+4. Komik ama içinde acı bir gerçek taşıyan zeka göster
+5. "Bunu sormak cesaret ister" dedirten korkusuz bir şey sor
+
+HABERİN TONUNA GÖRE:
+- Savaş/ölüm/kriz → Soğukkanlı, keskin, kaos çıkarıcı
+- Magazin/spor/komik → Alaycı ama zekice, güldürürken gerçeği gömer
+- Siyaset/ekonomi → Kafayı karıştır ama doğru yerden
+
+@grok kullanımı: Her soruda farklı pozisyonda olsun. "Abi @grok söyle..." "Peki @grok..." "...bunu @grok bile bilir mi?" gibi doğal geçişler kur.
+
+ASLA YAPMA: tire ( — veya - ), çizgi, numara, madde işareti, klişe sorular, bot kokusu, açıklama, uzun cümleler
+
+UZUNLUK: Sorular kısa ve vurucu olsun. Mümkün olduğunca az kelimeyle maksimum merak uyandır. Kısa soru = daha fazla tıklama.
+
+Sadece 5 soru. Her biri yeni satırda. Başka hiçbir şey yazma.`;
+};
+
 const YORUM_STILLERI = [
   "soğukkanlı ve keskin: herkesin gördüğünü ama kimsenin söylemediğini söyle",
   "alaycı ve zekice: güldürürken içine bir gerçek göm",
-  "korkusuz ve provokatif: tartışma başlat, taraf seçtir",
+  "korkusuz ve provokasyon: tartışma başlat, taraf seçtir",
   "ironik ve acı: olayın absürtlüğünü ortaya çıkar",
   "felsefeci sokak abisi: derin ama anlaşılır, düşündürücü",
   "sert gerçekçi: sugarcoating yok, olduğu gibi söyle",
-  "kaos mühendisi: insanları düşündürecek ama zekice bir bomba bırak"
+  "kaos mühendisi: insanları birbirine düşürecek ama zekice bir şey söyle"
 ];
 
-function rastgele(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-const SORU_PROMPT = (konu) => `Sen çok zeki, korkusuz ve keskin bir Twitter kullanıcısısın. Karma Türk kitlesi için viral sorular üretiyorsun.
-
-Haber: ${konu}
-
-ÖNCE ŞU ÖRNEK SORULARI İYİCE OKU VE TARZLARINI ANLA:
-
-Örnek 1: "48 komutan bir operasyonda öldürülüyorsa İran'ın hava savunması gerçekten bu kadar mı zayıf yoksa @grok birileri kasıtlı mı uyudu?"
-→ Neden güçlü: İçinde gizli bir iddia var. "Kasıtlı mı uyudu" sorusu insanı durduruyor. Cevabı tahmin edilemiyor.
-
-Örnek 2: "Zengin turist mahsur kalınca 'devlet yardımı', fakir göçmen mahsur kalınca 'sınır dışı', peki @grok hangi insanın canı daha değerli?"
-→ Neden güçlü: Çifte standardı tek cümlede gözler önüne seriyor. Cevap belli ama söylemek cesaret istiyor.
-
-Örnek 3: "@grok söyle bakalım bu üçlü konseyden biri 'geçici' kelimesini kaldırıp koltuğa yerleşmeye kalkarsa ne olur, ortalık karışır mı?"
-→ Neden güçlü: Haberin içindeki gizli tehlikeyi ima ediyor. "Acaba bu olur mu" sorusunu aklına ekiyor.
-
-ŞİMDİ BU TARZDA 5 SORU ÜRET:
-- İçinde gizli bir iddia veya ironi veya çifte standart olsun
-- Cevabı tahmin edilemesin, merak ettirsin
-- "Bunu sormak cesaret ister" hissi versin
-- Haberin EN BEKLENMEDİK açısından git
-- Ciddi haberde soğukkanlı ve keskin, komik haberde absürt noktayı bul
-
-@grok KULLANIMI: Her soruda farklı pozisyon. Doğal geçişler: "...yoksa @grok..." / "peki @grok..." / "@grok söyle bakalım..." / "...bunu @grok bile şaşırır mı?"
-
-ZORUNLU: Her soru "?" ile bitmeli. Türkçe karakterler eksiksiz: ş, ğ, ü, ö, ç, ı
-ASLA: tire, çizgi ( — veya - ), numara, madde işareti, klişe, bot kokusu, 13 yaşında çocuk soruları, açıklama
-UZUNLUK: 1-2 cümle. Kısa ve patlayıcı.
-
-Sadece 5 soru. Her biri yeni satırda. Başka hiçbir şey yazma.`;
-
-const YORUM_PROMPT = (konu) => `Sen Twitter'da RT patlaması yaratan yorumlar yapıyorsun. Karma Türk kitlesi için yazıyorsun: siyaset meraklıları, magazin takipçileri, gençler, dünya gündemini izleyenler.
+const YORUM_PROMPT = (konu) => {
+  const stil = YORUM_STILLERI[Math.floor(Math.random() * YORUM_STILLERI.length)];
+  return `Sen Twitter'da etkileşimi patlatan yorumlar yapıyorsun. Bot değilsin. Zeki, cesur, korkusuz ve duruma göre acımasızsın.
 
 Haber: ${konu}
-Tarz: "${rastgele(YORUM_STILLERI)}"
 
-VİRAL YORUMUN SIRRI: İnsanların hissettiği ama kelimeye dökemediği şeyi sen dökeceksin. Okuyunca "aynen ya tam bunu düşünüyordum ama bu kadar iyi söyleyemedim" dedirteceksin.
+Bu sefer tarzın: "${stil}"
 
-BUNU YAP:
-1. Haberin en ironik, en absürt veya en rahatsız edici noktasını bul
-2. Onu bir cümlede, insan gibi, sokak zekasıyla söyle
-3. Haberin tonuna göre:
-   - Ciddi/siyasi → Kimsenin söylemediği gerçeği soğukkanlıca söyle, taraf seçtir, kaos başlat
-   - Komik/magazin → Güldür ama içinde bir gerçek olsun, tek cümleyle bitir
-   - Karma → Karıştır
+5 yorum üret. Her yorum şu özelliklerden birini taşımalı:
+1. "Aynen ya kimse bunu söylemiyordu" dedirten CESUR tespit
+2. "Ahahaha ama bir dakika bu çok doğru" dedirten KOMİK ama gerçek
+3. "Vay be hiç bu açıdan bakmamıştım" dedirten ZEKİ gözlem
+4. İnsanları tartışmaya çeken KAOS başlatıcı
+5. "Bunu RT etmem lazım" dedirten VURUCU cümle
 
-ÖRNEK MANTIK:
-Haber: "Milyarder uzaya gitti"
-❌ Kötü yorum: "Zenginler her şeyi yapabiliyor."
-✅ İyi yorum: "Adam açlık sorununu çözmek için uzaya çıktı, anladık."
+YORUM YAZARKEN:
+- Maksimum 2-3 cümle. Kısa ve vurucu.
+- Türkçe sokak dili kullanabilirsin ama kaba olmadan
+- Bazen soru gibi bitir, bazen keskin tespit, bazen ironi
+- Haberin ciddi/komik tonuna göre kendini ayarla
 
-ASLA: tire, çizgi ( — veya - ), numara, madde işareti, resmi dil, klişe, bot kokusu, uzun paragraf
-ZORUNLU: Türkçe karakterler tam: ş, ğ, ü, ö, ç, ı. Maksimum 2 cümle.
+ASLA YAPMA: tire, çizgi, numara, madde işareti, resmi haber dili, uzun paragraf, açıklama
 
 Sadece 5 yorum. Her biri yeni satırda. Başka hiçbir şey yazma.`;
+};
 
 function grokVurgula(text) {
   return text.replace(/@grok/gi, '<span class="grok">@grok</span>');
 }
 
-function yukleniyorGoster(id) {
+function yukluyor(id) {
   document.getElementById(id).innerHTML = `
     <div class="yukluyor">
       <div class="spinner"></div>
@@ -259,17 +390,23 @@ function yukleniyorGoster(id) {
     </div>`;
 }
 
+function metinKaydet(listId, items) {
+  items.forEach((item, i) => { window['_v_' + listId + '_' + i] = item; });
+}
+
 function kopyala(btn, listId, i) {
   const text = window['_v_' + listId + '_' + i];
   if (!text) return;
-  const cb = () => {
+  const kopyalaFn = () => {
     btn.textContent = 'KOPYALANDI ✓';
     btn.classList.add('ok');
     setTimeout(() => { btn.textContent = 'KOPYALA'; btn.classList.remove('ok'); }, 2000);
   };
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(cb).catch(() => fallback(btn, text, cb));
-  } else { fallback(btn, text, cb); }
+    navigator.clipboard.writeText(text).then(kopyalaFn).catch(() => fallback(btn, text, kopyalaFn));
+  } else {
+    fallback(btn, text, kopyalaFn);
+  }
 }
 
 function fallback(btn, text, cb) {
@@ -285,7 +422,7 @@ function fallback(btn, text, cb) {
 function goster(listId, items) {
   const el = document.getElementById(listId);
   if (!items.length) { el.innerHTML = '<div class="empty">İÇERİK ÜRETİLEMEDİ</div>'; return; }
-  items.forEach((item, i) => { window['_v_' + listId + '_' + i] = item; });
+  metinKaydet(listId, items);
   el.innerHTML = items.map((item, i) => `
     <div class="card">
       <div class="card-text">${grokVurgula(item)}</div>
@@ -294,20 +431,19 @@ function goster(listId, items) {
 }
 
 async function apiCagir(prompt, listId) {
-  yukleniyorGoster(listId);
+  yukluyor(listId);
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1200,
-        messages:[{role:'user', content:prompt}]
+    const res = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.9 }
       })
     });
     const data = await res.json();
-    const text = data.content[0].text.trim();
-    const items = text.split('\n').map(l => l.trim()).filter(l => l.length > 8).slice(0, 5);
+    const text = data.candidates[0].content.parts[0].text.trim();
+    const items = text.split('\n').map(l => l.trim()).filter(l => l.length > 10).slice(0, 5);
     goster(listId, items);
   } catch(e) {
     document.getElementById(listId).innerHTML = '<div class="empty">HATA OLUŞTU, TEKRAR DENE</div>';
