@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viral Makine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background:#090909; color:#f0f0f0;
+    font-family:'IBM Plex Sans',sans-serif;
+    min-height:100vh; padding:24px 20px;
+  }
+
+  .header { text-align:center; margin-bottom:24px; }
+  .header h1 {
+    font-family:'Bebas Neue',sans-serif; font-size:2.6rem; letter-spacing:8px;
+    background:linear-gradient(135deg,#e63946,#f4a261);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .header p { color:#2a2a2a; font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; margin-top:4px; }
+
+  .input-bar {
+    max-width:900px; margin:0 auto 24px;
+    display:flex; gap:10px; align-items:stretch;
+  }
+  .input-bar textarea {
+    flex:1; background:#111; border:1px solid #1e1e1e; color:#eee;
+    padding:14px 16px; border-radius:8px;
+    font-family:'IBM Plex Sans',sans-serif; font-size:0.92rem;
+    resize:none; height:68px; outline:none; transition:border-color 0.2s; line-height:1.5;
+  }
+  .input-bar textarea:focus { border-color:#e63946; }
+  .input-bar textarea::placeholder { color:#222; }
+
+  .btn-uret {
+    background:linear-gradient(135deg,#e63946,#f4a261);
+    color:#fff; border:none; padding:0 22px; border-radius:8px;
+    font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:2px;
+    cursor:pointer; transition:opacity 0.2s,transform 0.1s; white-space:nowrap; flex-shrink:0;
+  }
+  .btn-uret:hover { opacity:0.85; }
+  .btn-uret:active { transform:scale(0.97); }
+  .btn-uret:disabled { opacity:0.35; cursor:not-allowed; }
+
+  .btn-temizle {
+    background:#141414; color:#3a3a3a; border:1px solid #1e1e1e;
+    padding:0 16px; border-radius:8px;
+    font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:2px;
+    cursor:pointer; transition:all 0.2s; white-space:nowrap; flex-shrink:0;
+  }
+  .btn-temizle:hover { background:#1e1e1e; color:#888; border-color:#2a2a2a; }
+
+  .panels {
+    display:grid; grid-template-columns:1fr 1px 1fr;
+    max-width:1300px; margin:0 auto; gap:0;
+  }
+  .panel { padding:0 22px; }
+  .panel:first-child { padding-left:0; }
+  .panel:last-child { padding-right:0; }
+  .divider { background:#161616; }
+
+  .panel-head {
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #141414;
+  }
+  .panel-badge {
+    width:28px; height:28px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0;
+  }
+  .panel-q .panel-badge { background:rgba(230,57,70,0.12); border:1px solid rgba(230,57,70,0.25); }
+  .panel-c .panel-badge { background:rgba(244,162,97,0.12); border:1px solid rgba(244,162,97,0.25); }
+
+  .panel-name { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:3px; }
+  .panel-q .panel-name { color:#e63946; }
+  .panel-c .panel-name { color:#f4a261; }
+  .panel-hint { font-size:0.68rem; color:#2a2a2a; letter-spacing:1px; margin-left:auto; }
+
+  .items { display:flex; flex-direction:column; gap:8px; min-height:160px; }
+
+  .card {
+    background:#0f0f0f; border:1px solid #161616; border-radius:6px;
+    padding:13px 15px; display:flex; align-items:flex-start; gap:10px;
+    transition:background 0.15s; animation:fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+  .panel-q .card { border-left:2px solid #e63946; }
+  .panel-c .card { border-left:2px solid #f4a261; }
+  .card:hover { background:#131313; }
+
+  .card-text { flex:1; font-size:0.87rem; line-height:1.65; color:#bbb; }
+  .grok { color:#e63946; font-weight:600; }
+
+  .btn-kopyala {
+    background:#141414; border:1px solid #1c1c1c; color:#3a3a3a;
+    padding:5px 10px; border-radius:4px;
+    font-family:'IBM Plex Sans',sans-serif; font-size:0.65rem; letter-spacing:1px;
+    cursor:pointer; white-space:nowrap; transition:all 0.2s;
+    flex-shrink:0; margin-top:2px; text-transform:uppercase;
+  }
+  .panel-q .btn-kopyala:hover { background:#e63946; border-color:#e63946; color:#fff; }
+  .panel-c .btn-kopyala:hover { background:#f4a261; border-color:#f4a261; color:#000; }
+  .btn-kopyala.ok { background:#0a1f0a; border-color:#1a3d1a; color:#4caf50; }
+
+  .empty {
+    text-align:center; color:#1a1a1a; font-size:0.75rem;
+    padding:48px 0; letter-spacing:2px;
+    border:1px dashed #131313; border-radius:6px;
+    font-family:'Bebas Neue',sans-serif;
+  }
+  .yukluyor {
+    text-align:center; padding:48px 0;
+    display:flex; flex-direction:column; align-items:center; gap:12px;
+  }
+  .spinner {
+    width:22px; height:22px; border:2px solid #1a1a1a;
+    border-radius:50%; animation:spin 0.8s linear infinite;
+  }
+  .panel-q .spinner { border-top-color:#e63946; }
+  .panel-c .spinner { border-top-color:#f4a261; }
+  .yukluyor span { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:3px; color:#222; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  @media (max-width:800px) {
+    .panels { grid-template-columns:1fr; }
+    .divider { display:none; }
+    .panel { padding:0 0 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>VİRAL MAKİNE</h1>
+  <p>Soru & Yorum Üretici — @grok için</p>
+</div>
+
+<div class="input-bar">
+  <textarea id="konu" placeholder="Haber başlığını buraya yaz... (Enter ile üret)"></textarea>
+  <button class="btn-uret" id="btnUret" onclick="uretHepsi()">ÜRET</button>
+  <button class="btn-temizle" onclick="temizle()">TEMİZLE</button>
+</div>
+
+<div class="panels">
+  <div class="panel panel-q">
+    <div class="panel-head">
+      <div class="panel-badge">❓</div>
+      <div class="panel-name">SORU ÜRETİCİ</div>
+      <div class="panel-hint">@grok'a sorulacak</div>
+    </div>
+    <div class="items" id="sorular">
+      <div class="empty">BAŞLIK YAZ VE ÜRET'E BAS</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="panel panel-c">
+    <div class="panel-head">
+      <div class="panel-badge">💬</div>
+      <div class="panel-name">YORUM ÜRETİCİ</div>
+      <div class="panel-hint">habere atılacak</div>
+    </div>
+    <div class="items" id="yorumlar">
+      <div class="empty">BAŞLIK YAZ VE ÜRET'E BAS</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SORU_ACILARI = [
+  "ekonomik güç dengesi ve para izi açısından bak",
+  "tarihsel benzerlikler ve tekrar eden kalıplar açısından değerlendir",
+  "psikoloji ve insan doğasının karanlık yüzü açısından sor",
+  "jeopolitik strateji ve kim ne kazanıyor açısından sor",
+  "toplumsal çürüme ve çifte standart açısından bak",
+  "medya manipülasyonu ve neyin saklandığı açısından sor",
+  "güç, korku ve sessizlik üçgeni açısından değerlendir"
+];
+
+const YORUM_STILLERI = [
+  "soğukkanlı ve keskin: herkesin gördüğünü ama kimsenin söylemediğini söyle",
+  "alaycı ve zekice: güldürürken içine bir gerçek göm",
+  "korkusuz ve provokatif: tartışma başlat, taraf seçtir",
+  "ironik ve acı: olayın absürtlüğünü ortaya çıkar",
+  "felsefeci sokak abisi: derin ama anlaşılır, düşündürücü",
+  "sert gerçekçi: sugarcoating yok, olduğu gibi söyle",
+  "kaos mühendisi: insanları düşündürecek ama zekice bir bomba bırak"
+];
+
+function rastgele(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+const SORU_PROMPT = (konu) => `Sen çok zeki, korkusuz ve keskin bir Twitter kullanıcısısın. Karma Türk kitlesi için viral sorular üretiyorsun.
+
+Haber: ${konu}
+
+ÖNCE ŞU ÖRNEK SORULARI İYİCE OKU VE TARZLARINI ANLA:
+
+Örnek 1: "48 komutan bir operasyonda öldürülüyorsa İran'ın hava savunması gerçekten bu kadar mı zayıf yoksa @grok birileri kasıtlı mı uyudu?"
+→ Neden güçlü: İçinde gizli bir iddia var. "Kasıtlı mı uyudu" sorusu insanı durduruyor. Cevabı tahmin edilemiyor.
+
+Örnek 2: "Zengin turist mahsur kalınca 'devlet yardımı', fakir göçmen mahsur kalınca 'sınır dışı', peki @grok hangi insanın canı daha değerli?"
+→ Neden güçlü: Çifte standardı tek cümlede gözler önüne seriyor. Cevap belli ama söylemek cesaret istiyor.
+
+Örnek 3: "@grok söyle bakalım bu üçlü konseyden biri 'geçici' kelimesini kaldırıp koltuğa yerleşmeye kalkarsa ne olur, ortalık karışır mı?"
+→ Neden güçlü: Haberin içindeki gizli tehlikeyi ima ediyor. "Acaba bu olur mu" sorusunu aklına ekiyor.
+
+ŞİMDİ BU TARZDA 5 SORU ÜRET:
+- İçinde gizli bir iddia veya ironi veya çifte standart olsun
+- Cevabı tahmin edilemesin, merak ettirsin
+- "Bunu sormak cesaret ister" hissi versin
+- Haberin EN BEKLENMEDİK açısından git
+- Ciddi haberde soğukkanlı ve keskin, komik haberde absürt noktayı bul
+
+@grok KULLANIMI: Her soruda farklı pozisyon. Doğal geçişler: "...yoksa @grok..." / "peki @grok..." / "@grok söyle bakalım..." / "...bunu @grok bile şaşırır mı?"
+
+ZORUNLU: Her soru "?" ile bitmeli. Türkçe karakterler eksiksiz: ş, ğ, ü, ö, ç, ı
+ASLA: tire, çizgi ( — veya - ), numara, madde işareti, klişe, bot kokusu, 13 yaşında çocuk soruları, açıklama
+UZUNLUK: 1-2 cümle. Kısa ve patlayıcı.
+
+Sadece 5 soru. Her biri yeni satırda. Başka hiçbir şey yazma.`;
+
+const YORUM_PROMPT = (konu) => `Sen Twitter'da RT patlaması yaratan yorumlar yapıyorsun. Karma Türk kitlesi için yazıyorsun: siyaset meraklıları, magazin takipçileri, gençler, dünya gündemini izleyenler.
+
+Haber: ${konu}
+Tarz: "${rastgele(YORUM_STILLERI)}"
+
+VİRAL YORUMUN SIRRI: İnsanların hissettiği ama kelimeye dökemediği şeyi sen dökeceksin. Okuyunca "aynen ya tam bunu düşünüyordum ama bu kadar iyi söyleyemedim" dedirteceksin.
+
+BUNU YAP:
+1. Haberin en ironik, en absürt veya en rahatsız edici noktasını bul
+2. Onu bir cümlede, insan gibi, sokak zekasıyla söyle
+3. Haberin tonuna göre:
+   - Ciddi/siyasi → Kimsenin söylemediği gerçeği soğukkanlıca söyle, taraf seçtir, kaos başlat
+   - Komik/magazin → Güldür ama içinde bir gerçek olsun, tek cümleyle bitir
+   - Karma → Karıştır
+
+ÖRNEK MANTIK:
+Haber: "Milyarder uzaya gitti"
+❌ Kötü yorum: "Zenginler her şeyi yapabiliyor."
+✅ İyi yorum: "Adam açlık sorununu çözmek için uzaya çıktı, anladık."
+
+ASLA: tire, çizgi ( — veya - ), numara, madde işareti, resmi dil, klişe, bot kokusu, uzun paragraf
+ZORUNLU: Türkçe karakterler tam: ş, ğ, ü, ö, ç, ı. Maksimum 2 cümle.
+
+Sadece 5 yorum. Her biri yeni satırda. Başka hiçbir şey yazma.`;
+
+function grokVurgula(text) {
+  return text.replace(/@grok/gi, '<span class="grok">@grok</span>');
+}
+
+function yukleniyorGoster(id) {
+  document.getElementById(id).innerHTML = `
+    <div class="yukluyor">
+      <div class="spinner"></div>
+      <span>ÜRETİLİYOR...</span>
+    </div>`;
+}
+
+function kopyala(btn, listId, i) {
+  const text = window['_v_' + listId + '_' + i];
+  if (!text) return;
+  const cb = () => {
+    btn.textContent = 'KOPYALANDI ✓';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'KOPYALA'; btn.classList.remove('ok'); }, 2000);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(cb).catch(() => fallback(btn, text, cb));
+  } else { fallback(btn, text, cb); }
+}
+
+function fallback(btn, text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) { btn.textContent = 'HATA'; }
+  document.body.removeChild(ta);
+}
+
+function goster(listId, items) {
+  const el = document.getElementById(listId);
+  if (!items.length) { el.innerHTML = '<div class="empty">İÇERİK ÜRETİLEMEDİ</div>'; return; }
+  items.forEach((item, i) => { window['_v_' + listId + '_' + i] = item; });
+  el.innerHTML = items.map((item, i) => `
+    <div class="card">
+      <div class="card-text">${grokVurgula(item)}</div>
+      <button class="btn-kopyala" onclick="kopyala(this,'${listId}',${i})">KOPYALA</button>
+    </div>`).join('');
+}
+
+async function apiCagir(prompt, listId) {
+  yukleniyorGoster(listId);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1200,
+        messages:[{role:'user', content:prompt}]
+      })
+    });
+    const data = await res.json();
+    const text = data.content[0].text.trim();
+    const items = text.split('\n').map(l => l.trim()).filter(l => l.length > 8).slice(0, 5);
+    goster(listId, items);
+  } catch(e) {
+    document.getElementById(listId).innerHTML = '<div class="empty">HATA OLUŞTU, TEKRAR DENE</div>';
+  }
+}
+
+async function uretHepsi() {
+  const konu = document.getElementById('konu').value.trim();
+  if (!konu) return;
+  document.getElementById('btnUret').disabled = true;
+  await Promise.all([
+    apiCagir(SORU_PROMPT(konu), 'sorular'),
+    apiCagir(YORUM_PROMPT(konu), 'yorumlar')
+  ]);
+  document.getElementById('btnUret').disabled = false;
+}
+
+function temizle() {
+  document.getElementById('konu').value = '';
+  document.getElementById('sorular').innerHTML = '<div class="empty">BAŞLIK YAZ VE ÜRET\'E BAS</div>';
+  document.getElementById('yorumlar').innerHTML = '<div class="empty">BAŞLIK YAZ VE ÜRET\'E BAS</div>';
+  document.getElementById('konu').focus();
+}
+
+document.getElementById('konu').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); uretHepsi(); }
+});
+</script>
+</body>
+</html>
